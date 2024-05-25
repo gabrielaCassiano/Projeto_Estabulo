@@ -1,3 +1,100 @@
-h1 {
-    color: red;
+label, h1, p {
+    color: white;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+}
+#img-user-form {
+    content: "";
+
+    display: inline-block;
+    height: 100px;
+    width: 100px; 
+
+    position: relative;
+    bottom: 60px;
+
+
+    background: url(../IMAGES/user-circle-svgrepo-com.svg) no-repeat center;
+    background-size: contain;
+    fill-opacity: 0.5
+}
+.inputs label {
+    display: flex ;
+}
+.inputs input {
+    height: 23.9px;
+    border: 0 none;
+    outline: 0;
+    box-shadow: none;
+    border-radius: 0 10px 10px 0;
+}
+.inputs i {
+    background-color: white;
+    border-radius: 10px 0px 0px 10px;
+} 
+#email-icon::before, #pass-icon::before {
+    content: "";
+    display: inline-block;
+    height: 20px;
+    width: 20px; 
+    position: relative;
+
+
+}
+#email-icon::before {
+    background: url(../IMAGES/user-icon.svg) no-repeat center;
+    background-size: contain;
+    top:3px;
+
+}
+#pass-icon::before {
+    background: url(../IMAGES/lock-icon.svg) no-repeat center;
+    background-size: contain;
+    top: 2px;
+}
+
+#submit {
+    border: 0.5px solid transparent;
+    border-radius: 10px;
+}
+
+#bg-img {
+    background: url(../IMAGES/bullseye-gradient.svg) no-repeat center;
+    background-size: 100%;
+
+    height: 100vh;
+}
+#bg-img::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(15px);
+    pointer-events: none;
+}
+#login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 20px;
+    border-radius: 15px;
+
+    background-color:rgba(255, 255, 255, 0.406);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+}
+#loginFields {
+   display: flex;
+   flex-direction: column;
+   gap: 30px;
+   
 }

@@ -4,19 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/style.css">
-    <title>Projeto Estabulo</title>
+    <title>Estabulo - Login</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <form>
-        <label for="email">Email:
-            <input type="email" name="email" id="email" placeholder="Seu Email...">
-        </label>
-        <label for="pass">Senha:
-            <input type="password" name="pass" id="pass" placeholder="Sua senha...">
-        </label>
-        <input type="button" id="submit" value="Entrar">
-    </form>
+    <div id="bg-img"></div>
+    <div id="login">
+        <i id="img-user-form"></i>
+        <form id="loginFields" method="post">
+            <div class="inputs">
+                <label for="email">
+                    <i id="email-icon"></i>
+                    <input type="email" name="email" id="email" placeholder="Seu Email...">
+                </label>
+            </div>
+            <div class="inputs">
+                <label for="pass">
+                    <i id="pass-icon"></i>
+                    <input type="password" name="pass" id="pass" placeholder="Sua senha...">
+                </label>
+            </div>
+
+            <input type="submit" id="submit" value="Entrar">
+        </form>
+    </div>
+    
     <script src="JS/index.js"></script>
 </body>
 </html>

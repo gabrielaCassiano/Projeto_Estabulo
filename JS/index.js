@@ -1,17 +1,19 @@
 const email = document.getElementById("email");
 const senha = document.getElementById("pass"); 
 const botaoSubmit = document.getElementById("submit");
+const form = document.getElementById("loginFields");
 const deslocamento = 3;
 const deslocamentoNumero = 5;
 const senhaCod = "JdelCPduld7579";
 const emailValid = "gabiiv.cassiano@gmail.com"
 
-botaoSubmit.addEventListener('click', salvandoDados);
+form.addEventListener('submit', salvandoDados);
 
 
 
 // codificar dados
-function salvandoDados() {
+function salvandoDados(event) {
+    event.preventDefault()
     let dadoSenha = senha.value;
     let dadoEmail = email.value;
 
@@ -22,15 +24,9 @@ function salvandoDados() {
     
 //Verificacao se a senha que foi digitada e igual esta correta 
 
-    let verificaSenha = codifica(dadoSenha, deslocamento, deslocamentoNumero);
-    
-    if(verificaSenha != senhaCod){
-        alert("SENHA INVALIDA, DIGITE NOVAMENTE")
-    } else if(dadoEmail != emailValid) {
-        alert("EMAIL INVALIDO, DIGITE NOVAMENTE")
-    } else {
-        console.log("ENTROUUUUU")
-    }
+    let senhaCodificada = codifica(dadoSenha, deslocamento, deslocamentoNumero);
+    verificarDados(senhaCodificada, dadoEmail);
+
 }
 
 
@@ -62,4 +58,17 @@ function codifica(senha, deslocamento, deslocamentoNumero) {
     }
 
     return resultado;
+}
+
+function verificarDados(senhaCodificada, dadoEmail) {
+    
+    if (senhaCodificada != senhaCod && dadoEmail != emailValid) {
+        alert("SENHA E EMAIL INVALIDOS, DIGITE NOVAMENTE")
+    } else if(senhaCodificada != senhaCod){
+        alert("SENHA INVALIDA, DIGITE NOVAMENTE")
+    } else if(dadoEmail != emailValid) {
+        alert("EMAIL INVALIDO, DIGITE NOVAMENTE")
+    } else {
+        window.location.href = "../mainPage.html";
+    }
 }
