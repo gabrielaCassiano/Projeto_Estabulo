@@ -7,8 +7,12 @@
 </head>
 <body>
     <h1>ESP32 Door Control</h1>
-    <button onclick="sendCommand('open')">Open Door</button>
-    <button onclick="sendCommand('close')">Close Door</button>
+    <button onclick="sendCommand('on')">Open Door</button>
+    <button onclick="sendCommand('off')">Close Door</button>
+    <div>
+        <p>Estado da porta</p>
+        <p id="estadoPorta"></p>
+    </div>
 
     <script src="./JS/doorControl.js"></script>
 </body>

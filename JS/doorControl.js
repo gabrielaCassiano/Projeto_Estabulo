@@ -1,6 +1,13 @@
+
+const ip = 'http://192.168.137.239/door/'
+let estadoPorta = document.getElementById("estadoPorta");
+
+console.log(estadoPorta)
+
 function sendCommand(command) {
-    fetch('https://192.168.1.184/esp32' + command, { method: 'POST'})
+    console.log(ip + command)
+    fetch(ip + command)
     .then(response => response.text())
-    .then(data => console.log(data))
+    .then(data => estadoPorta.innerText = data)
     .catch(error => console.error('Error:', error));
 }
