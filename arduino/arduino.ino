@@ -19,39 +19,46 @@ Servo servoMotor1;
 Servo servoMotor2;
 HX711 balanca;
 
-float fator_calibracao = -37000;
+float fator_calibracao = -7000*1000;
+float pesoAtual = 0;
+bool food = false;
 
 
 void setup() {
   Serial.begin(115200);
 
-  conectarWifi();
-
-  
-  // Initialize Servo
+  //setando pinos
   servoMotor1.attach(SERVO_PIN_UM);
   servoMotor2.attach(SERVO_PIN_DOIS);
-
-  // Initialize LED
   pinMode(LED_PIN, OUTPUT);
   
-  // Setup Balança
+  //chamando funçoes do estabulo
+  conectarWifi();
+  configuraBalanca();
+
+}
+
+void loop() {
+  //esperando requisiçoes
+  server.handleClient();
+
+  //trabalhando o peso
+  handleWeight();
+}
+
+void configuraBalanca() {
   balanca.begin(CARGA_DT, CARGA_SCKT);
   balanca.set_scale(fator_calibracao);
   balanca.tare();
   Serial.println("Balança calibrada e tara definida!");
 }
 
-void loop() {
-  server.handleClient();
-  handleWeight();
-  
-}
-
 void handleRoot() {
   digitalWrite(LED_PIN, HIGH);
 }
 
+
+//inicio controle das portas
 void handleOpenDoor() {
   server.sendHeader("Access-Control-Allow-Origin", "*");
   servoMotor1.write(88);
@@ -65,7 +72,39 @@ void handleCloseDoor() {
   digitalWrite(LED_PIN, LOW);
   server.send(200, "text/plain", "Porta Fechada");
 }
+//fim controle das portas
 
+//inicio controle alimentador
+void handleFood() {
+  if(food){
+    servoMotor2.write(88);
+    food = false;
+  } else {
+      servoMotor2.write(-2);
+  }
+}
+
+void handleWeight() {
+  pesoAtual = balanca.get_units(), 2;
+  Serial.print("Peso: ");
+  Serial.print(balanca.get_units(), 2);
+  if (pesoAtual > 0.05) {
+    //pesado
+    food = true;
+    handleFood();
+  } else {
+    //leve
+    food = false;
+    handleFood();
+  }
+  Serial.println(" kg");
+  balanca.read();
+  delay(500);
+}
+//fim controle alimentador
+
+
+//inicio config wifi/local server
 void conectarWifi() {
    // Setup WiFi
   WiFi.begin(ssid, password);
@@ -84,13 +123,5 @@ void conectarWifi() {
   server.on("/door/off", HTTP_GET, handleCloseDoor);
   server.begin();
   Serial.println("HTTP server started");
-
-}
-
-void handleWeight() {
-  Serial.print("Peso: ");
-  Serial.print(balanca.get_units(), 2);
-  Serial.println(" kg");
-  delay(5000);
 
 }
