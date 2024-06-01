@@ -3,16 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/normalize.css">
+    <link rel="stylesheet" href="style.css" >
     <title>Estabulo - Principal</title>
 </head>
 <body>
-    <h1>ESP32 Door Control</h1>
-    <button onclick="sendCommand('on')">Open Door</button>
-    <button onclick="sendCommand('off')">Close Door</button>
-    <div>
-        <p>Estado da porta</p>
-        <p id="estadoPorta"></p>
-    </div>
+    <section class="menu" >
+    
+        <nav id="navMenu">
+
+            <br>  
+            <ul id="navLinks" class="navLinks">
+
+                <a href="#welcome">  <li href="#welcome">Inicio</li></a>
+                <a href="#aboutMeContainer">  <li href="#aboutMeContainer">Porta</li></a>
+                <a href="#projects"> <li href="#projects">Comida</li></a>
+
+            </ul>
+        </nav>
+        <br><br><br><br><br><br>
+        <div class="menuBonito">
+            <P>TRABALHO</P>
+            <h1>ESTÁBULO INTELIGENTE</h1>
+        </div>
+
+
+    </section>
+
+    <section class="porta">
+        <div class="background"></div>
+        <div class="caixa">
+            <h1> CONTROLE DA PORTA</h1>
+            <button onclick="sendCommand('on')">Abrir Porta</button>
+            <button onclick="sendCommand('off')">Fechar Porta</button>
+    
+            <div>
+                <p>Estado da porta</p>
+                <p id="estadoPorta"></p>
+            </div>
+        </div>   
+    </section>
 
     <script src="./JS/doorControl.js"></script>
 </body>

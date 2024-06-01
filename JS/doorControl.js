@@ -1,5 +1,5 @@
 
-const ip = 'http://192.168.137.50/door/'
+const ip = 'http://192.168.137.209/door/'
 let estadoPorta = document.getElementById("estadoPorta");
 
 console.log(estadoPorta)

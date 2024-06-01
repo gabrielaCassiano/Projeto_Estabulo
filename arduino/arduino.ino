@@ -19,7 +19,7 @@ Servo servoMotor1;
 Servo servoMotor2;
 HX711 balanca;
 
-float fator_calibracao = -7000*1000;
+float fator_calibracao = -7000*1200;
 float pesoAtual = 0;
 bool food = false;
 
@@ -61,7 +61,7 @@ void handleRoot() {
 //inicio controle das portas
 void handleOpenDoor() {
   server.sendHeader("Access-Control-Allow-Origin", "*");
-  servoMotor1.write(88);
+  servoMotor1.write(90);
   digitalWrite(LED_PIN, HIGH); 
   server.send(200, "text/plain", "Porta Aberta");
 }
@@ -77,7 +77,7 @@ void handleCloseDoor() {
 //inicio controle alimentador
 void handleFood() {
   if(food){
-    servoMotor2.write(88);
+    servoMotor2.write(90);
     food = false;
   } else {
       servoMotor2.write(-2);
@@ -88,7 +88,7 @@ void handleWeight() {
   pesoAtual = balanca.get_units(), 2;
   Serial.print("Peso: ");
   Serial.print(balanca.get_units(), 2);
-  if (pesoAtual > 0.05) {
+  if (pesoAtual > 0.03) {
     //pesado
     food = true;
     handleFood();
@@ -106,7 +106,10 @@ void handleWeight() {
 
 //inicio config wifi/local server
 void conectarWifi() {
-   // Setup WiFi
+   //ip
+   
+   
+   //wifi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
