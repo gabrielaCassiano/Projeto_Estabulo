@@ -19,9 +19,43 @@ Servo servoMotor1;
 Servo servoMotor2;
 HX711 balanca;
 
-float fator_calibracao = -7000*1000;
+float fator_calibracao = -7333322;
 float pesoAtual = 0;
 bool food = false;
+
+void handleSendWeight() {
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.send(200, "text/plain", String(pesoAtual));
+}
+//fim controle alimentador
+
+
+//inicio config wifi/local server
+void conectarWifi() {
+   //ip
+   
+   
+   //wifi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi");
+  
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+
+
+  server.on("/door/on", HTTP_GET, handleOpenDoor);
+  server.on("/door/off", HTTP_GET, handleCloseDoor);
+  server.on("/peso/food", HTTP_GET, handleSendWeight);
+  server.on("/peso/loadFood", HTTP_GET, handleWeightRemote);
+  server.begin();
+  Serial.println("HTTP server started");
+
+}
 
 
 void setup() {
@@ -46,10 +80,15 @@ void loop() {
   handleWeight();
 }
 
+void zeraBalanca() {
+  balanca.tare();
+  Serial.println("Balança zerada");
+}
+
 void configuraBalanca() {
   balanca.begin(CARGA_DT, CARGA_SCKT);
   balanca.set_scale(fator_calibracao);
-  balanca.tare();
+  zeraBalanca();
   Serial.println("Balança calibrada e tara definida!");
 }
 
@@ -61,7 +100,7 @@ void handleRoot() {
 //inicio controle das portas
 void handleOpenDoor() {
   server.sendHeader("Access-Control-Allow-Origin", "*");
-  servoMotor1.write(88);
+  servoMotor1.write(90);
   digitalWrite(LED_PIN, HIGH); 
   server.send(200, "text/plain", "Porta Aberta");
 }
@@ -77,18 +116,27 @@ void handleCloseDoor() {
 //inicio controle alimentador
 void handleFood() {
   if(food){
-    servoMotor2.write(88);
+    servoMotor2.write(-90);
     food = false;
   } else {
-      servoMotor2.write(-2);
+      servoMotor2.write(0);
   }
 }
 
+void handleWeightRemote() {
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  servoMotor2.write(90);
+  delay(3000);
+  servoMotor2.write(0);
+  server.send(200, "text/plain", "Comida Colocada!");
+}
+
 void handleWeight() {
-  pesoAtual = balanca.get_units(), 2;
+  pesoAtual = balanca.get_units(5);
   Serial.print("Peso: ");
-  Serial.print(balanca.get_units(), 2);
-  if (pesoAtual > 0.05) {
+  Serial.print(pesoAtual);
+  
+  if (pesoAtual > 0.03) {
     //pesado
     food = true;
     handleFood();
@@ -100,28 +148,4 @@ void handleWeight() {
   Serial.println(" kg");
   balanca.read();
   delay(500);
-}
-//fim controle alimentador
-
-
-//inicio config wifi/local server
-void conectarWifi() {
-   // Setup WiFi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
   }
-  Serial.println("Connected to WiFi");
-  
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
-
-
-
-  server.on("/door/on", HTTP_GET, handleOpenDoor);
-  server.on("/door/off", HTTP_GET, handleCloseDoor);
-  server.begin();
-  Serial.println("HTTP server started");
-
-}

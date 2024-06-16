@@ -3,16 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/normalize.css">
+    <link rel="stylesheet" href="./mainPageStyle.css" >
     <title>Estabulo - Principal</title>
 </head>
 <body>
-    <h1>ESP32 Door Control</h1>
-    <button onclick="sendCommand('on')">Open Door</button>
-    <button onclick="sendCommand('off')">Close Door</button>
-    <div>
-        <p>Estado da porta</p>
-        <p id="estadoPorta"></p>
-    </div>
+    <section class="menu" >
+    
+        <nav id="navMenu">
+
+            <br>  
+            <ul id="navLinks" class="navLinks">
+
+                <a href="#welcome">  <li href="#welcome">Inicio</li></a>
+                <a href="#controle">  <li href="#aboutMeContainer">Controle</li></a>
+                
+
+            </ul>
+        </nav>
+        <div class="menuBonito">
+            <P>TRABALHO</P>
+            <h1>ESTÁBULO INTELIGENTE</h1>
+        </div>
+
+
+    </section>
+
+    <section class="porta" id="controle">
+        <div class="background"></div>
+
+        <div class="caixa">
+                <i id="lock-img"></i>
+            <h2> Controle da porta</h2>
+            <div>
+                <p>Estado da porta</p>
+                <p id="estadoPorta"></p>
+            </div>
+            <div class="buttons">
+                <button class="button" onclick="sendCommand('on')">Abrir Porta</button>
+                <button class="button" onclick="sendCommand('off')">Fechar Porta</button>
+            </div>
+    
+        </div>  
+
+        <div class="caixa comidaInfo">
+            <h2> Estado da comida</h2>
+                <p id="estadoComida">0.00</p>
+                <p id="estadoDoComandoLoad"></p>
+                <button class="button" onclick="sendCommand('food')">Clique para saber a quantidade de comida atual</button>
+                <button class="button" onclick="sendCommand('loadFood')">Colocar Comida</button>
+
+                
+                
+        </div>  
+        
+       
+        
+    </section>
+
+    
+
+   
 
     <script src="./JS/doorControl.js"></script>
 </body>
